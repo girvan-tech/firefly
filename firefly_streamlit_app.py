@@ -41,11 +41,7 @@ def load_data(path: str) -> pd.DataFrame:
 def exact_search(df: pd.DataFrame, query: str, field: str) -> pd.DataFrame:
     q = (query or "").strip().lower()
 if not q:
-    # Return all rows sorted by votes desc, then round order asc
-    return df[REQUIRED_COLS].sort_values(
-        by=["Total Votes", "Round Order"],
-        ascending=[False, True]
-    )
+    return df[REQUIRED_COLS].sort_values(by=["Total Votes", "Round Order"], ascending=[False, True])
 
     if field == "Artist":
         mask = df["artist_lc"].str.contains(q, na=False)
@@ -72,10 +68,7 @@ if not q:
 def fuzzy_search(df: pd.DataFrame, query: str, field: str, threshold: int) -> pd.DataFrame:
     q = (query or "").strip().lower()
 if not q:
-    return df[REQUIRED_COLS].sort_values(
-        by=["Total Votes", "Round Order"],
-        ascending=[False, True]
-    )
+    return df[REQUIRED_COLS].sort_values(by=["Total Votes", "Round Order"], ascending=[False, True])
 
     if field == "Artist":
         series = df["Artist(s)"].astype(str)
