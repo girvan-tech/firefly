@@ -164,7 +164,7 @@ st.markdown("---")
 # ----------------------------------
 # EXECUTE SEARCH
 # ----------------------------------
-if query:
+if query or query == "":
     if use_fuzzy:
         results = fuzzy_search(filtered, query, {"Artist + Title": "Both", "Artist": "Artist", "Title": "Title"}[field], threshold)
         # If fuzzy returns the extra column, show it; otherwise fallback
