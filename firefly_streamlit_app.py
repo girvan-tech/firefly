@@ -78,7 +78,7 @@ st.write(f"Loaded **{len(df):,}** submissions from **{DATA_FILE}**")
 # Search inputs
 col1, col2 = st.columns([3, 1])
 with col1:
-    query = st.text_input("Search by Artist or Song Title", "", placeholder="e.g. Beatles, Autechre, Sunshine...")
+    query = st.text_input("Search by Artist or Song Title", "", placeholder="e.g. Eitzel, American Music Club, The Banzai Predicament...")
 with col2:
     field = st.selectbox("Field", ["Artist + Title", "Artist", "Title"])
 
