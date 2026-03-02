@@ -12,7 +12,7 @@ DATA_FILE_DEFAULT = "all firefly.xlsx"
 REQUIRED_COLS = [
     "Artist(s)", "Title", "Submitter",
     "Round Order", "Round Name",
-    "Total Votes", "Source File"
+    "Total Votes", "League Number"
 ]
 
 st.set_page_config(page_title="Firefly Search (fuzzy)", layout="wide")
