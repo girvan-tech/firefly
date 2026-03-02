@@ -111,14 +111,14 @@ df = load_data(str(data_path))
 
 # Optional filters (apply to the full dataset before search)
 with st.sidebar.expander("🔎 Filters (optional)"):
-    source_pick = st.multiselect("Source File (league)", sorted(df["Source File"].dropna().unique().tolist()))
+    source_pick = st.multiselect("League Number", sorted(df["League Number"].dropna().unique().tolist()))
     round_pick  = st.multiselect("Round Name", sorted(df["Round Name"].dropna().unique().tolist()))
     submitter_pick = st.multiselect("Submitter", sorted(df["Submitter"].dropna().unique().tolist()))
     min_votes = st.number_input("Min Total Votes", min_value=0, value=0, step=1)
 
 filtered = df.copy()
 if source_pick:
-    filtered = filtered[filtered["Source File"].isin(source_pick)]
+    filtered = filtered[filtered["League Number"].isin(source_pick)]
 if round_pick:
     filtered = filtered[filtered["Round Name"].isin(round_pick)]
 if submitter_pick:
