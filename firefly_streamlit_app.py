@@ -8,7 +8,7 @@ from rapidfuzz import fuzz
 # ----------------------------------
 # CONFIG
 # ----------------------------------
-DATA_FILE_DEFAULT = "submission_summary_all_firefly_3_4_5_6.xlsx"
+DATA_FILE_DEFAULT = "submission_summary_all_firefly_4_5_6.xlsx"
 REQUIRED_COLS = [
     "Artist(s)", "Title", "Submitter",
     "Round Order", "Round Name", "Round ID",
