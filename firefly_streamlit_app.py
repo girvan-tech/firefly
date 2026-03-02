@@ -32,31 +32,39 @@ def load_data(path: str):
 # -----------------------------
 # SEARCH FUNCTION
 # -----------------------------
-def search(df: pd.DataFrame, query: str, field: str):
+
+from rapidfuzz import fuzz, process
+
+def search(df, query, field):
     if not query:
-        return df.iloc[0:0]  # empty
+        return df.iloc[0:0]
 
     q = query.lower().strip()
 
+    # Build candidate text depending on field selection
     if field == "Artist":
-        mask = df["artist_lc"].str.contains(q, na=False)
+        series = df["Artist(s)"].astype(str)
     elif field == "Title":
-        mask = df["title_lc"].str.contains(q, na=False)
-    else:
-        mask = df["artist_lc"].str.contains(q, na=False) | df["title_lc"].str.contains(q, na=False)
+        series = df["Title"].astype(str)
+    else:  # Artist + Title
+        series = (df["Artist(s)"] + " " + df["Title"]).astype(str)
 
-    results = df.loc[mask, REQUIRED_COLS].copy()
+    # Compute fuzzy score
+    scores = series.apply(lambda x: fuzz.partial_ratio(q, x.lower()))
 
-    # Prioritize matches that *start with* the query
-    starts = (
-        df["artist_lc"].str.startswith(q, na=False) |
-        df["title_lc"].str.startswith(q, na=False)
-    )
-    results["starts"] = starts[mask].astype(int)
+    # Keep results above threshold
+    THRESHOLD = 60   # tweak this to make matching stricter or looser
+    matched = df.loc[scores >= THRESHOLD].copy()
 
-    results = results.sort_values(["starts", "Total Votes"], ascending=[False, False])
-    results = results.drop(columns=["starts"])
-    return results
+    # Sort by best fuzzy score, then by Total Votes
+    matched["fuzzy_score"] = scores[scores >= THRESHOLD]
+    matched = matched.sort_values(["fuzzy_score", "Total Votes"], ascending=[False, False])
+
+    # Return clean columns
+    return matched[
+        ["Artist(s)", "Title", "Submitter", "Round Order",
+         "Round Name", "Round ID", "Total Votes", "Source File"]
+    ]
 
 
 # -----------------------------
