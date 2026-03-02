@@ -11,7 +11,7 @@ from rapidfuzz import fuzz
 DATA_FILE_DEFAULT = "all firefly.xlsx"
 REQUIRED_COLS = [
     "Artist(s)", "Title", "Submitter",
-    "Round Order", "Round Name", "Round ID",
+    "Round Order", "Round Name",
     "Total Votes", "Source File"
 ]
 
