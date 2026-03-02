@@ -148,7 +148,7 @@ row1_col1, row1_col2, row1_col3 = st.columns([1.4, 2, 2])
 with row1_col1:
     use_fuzzy = st.checkbox("Enable fuzzy matching", value=True)
 with row1_col2:
-    threshold = st.slider("Fuzzy threshold", min_value=40, max_value=95, value=65, step=1, help="Lower = more forgiving; Higher = stricter")
+    threshold = st.slider("Fuzzy threshold", min_value=40, max_value=95, value=80, step=1, help="Lower = more forgiving; Higher = stricter")
 with row1_col3:
     limit = st.number_input("Max rows to display", min_value=10, max_value=5000, value=500, step=10)
 
