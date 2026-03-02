@@ -40,8 +40,8 @@ def load_data(path: str) -> pd.DataFrame:
 # ----------------------------------
 def exact_search(df: pd.DataFrame, query: str, field: str) -> pd.DataFrame:
     q = (query or "").strip().lower()
-if not q:
-    return df[REQUIRED_COLS].sort_values(by=["Total Votes", "Round Order"], ascending=[False, True])
+    if not q:
+        return df.iloc[0:0]
 
     if field == "Artist":
         mask = df["artist_lc"].str.contains(q, na=False)
@@ -67,8 +67,8 @@ if not q:
 # ----------------------------------
 def fuzzy_search(df: pd.DataFrame, query: str, field: str, threshold: int) -> pd.DataFrame:
     q = (query or "").strip().lower()
-if not q:
-    return df[REQUIRED_COLS].sort_values(by=["Total Votes", "Round Order"], ascending=[False, True])
+    if not q:
+        return df.iloc[0:0]
 
     if field == "Artist":
         series = df["Artist(s)"].astype(str)
@@ -157,7 +157,7 @@ st.markdown("---")
 # ----------------------------------
 # EXECUTE SEARCH
 # ----------------------------------
-if query or query == "":
+if query:
     if use_fuzzy:
         results = fuzzy_search(filtered, query, {"Artist + Title": "Both", "Artist": "Artist", "Title": "Title"}[field], threshold)
         # If fuzzy returns the extra column, show it; otherwise fallback
