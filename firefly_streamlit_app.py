@@ -140,7 +140,7 @@ st.caption(
 
 col_q, col_field = st.columns([3, 1])
 with col_q:
-    query = st.text_input("Search by Artist or Song Title", "", placeholder="Try: 'Shuggie', 'Radiohed', 'Banana', 'Blue Monday'…")
+    query = st.text_input("Search by Artist or Song Title", "", placeholder="Try: 'Eitzel', 'Firefly', 'Miserable', 'Chimp'…")
 with col_field:
     field = st.selectbox("Field", ["Artist + Title", "Artist", "Title"])
 
