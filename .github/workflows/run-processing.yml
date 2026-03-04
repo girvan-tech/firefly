@@ -23,7 +23,7 @@ jobs:
         run: pip install pandas openpyxl
 
       - name: Run processing script
-        run: add_current.py
+        run: python add_current.py
 
       - name: Commit and push results
         run: |
