@@ -29,7 +29,7 @@ jobs:
       - name: Run processing script
         env:
           GOOGLE_CREDS_JSON: ${{ secrets.GOOGLE_CREDS_JSON }}
-        run: python process.py
+        run: python add_current.py
 
       - name: Commit and push results
         run: |
