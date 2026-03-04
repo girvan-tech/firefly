@@ -65,7 +65,7 @@ scope = [
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 client = gspread.authorize(creds)
 
-SPREADSHEET_ID = "<YOUR_GOOGLE_SHEET_ID>"   # <-- add your real ID here
+SPREADSHEET_ID = "1YOlQCaBlcjiE_x2-hL7gMeo-7eQ_p5a2rECw3vg3U4c"   # <-- add your real ID here
 sheet = client.open_by_key(SPREADSHEET_ID).sheet1
 
 # Convert DataFrame to list-of-lists
