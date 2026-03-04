@@ -1,7 +1,10 @@
 
 import pandas as pd
 import zipfile
+import json
 import os
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 # ---- Unzip export.zip ----
 zip_path = "export.zip"
@@ -20,11 +23,9 @@ df_votes = pd.read_csv('votes.csv')
 
 # ---- Build submission summary ----
 
-# Merge to get submitter name
 merged = df_sub.merge(df_comp, left_on='Submitter ID', right_on='ID', how='left')
 merged = merged.rename(columns={'Name': 'Submitter'})
 
-# Round order + round name
 df_rounds['Round Order'] = df_rounds.reset_index().index + 1
 merged = merged.merge(
     df_rounds[['ID', 'Round Order', 'Name']],
@@ -32,29 +33,45 @@ merged = merged.merge(
 )
 merged = merged.rename(columns={'Name': 'Round Name'})
 
-# Total votes
 vote_sum = df_votes.groupby('Spotify URI')['Points Assigned'].sum().reset_index()
 vote_sum = vote_sum.rename(columns={'Points Assigned': 'Total Votes'})
 merged = merged.merge(vote_sum, on='Spotify URI', how='left')
 
-# Add League column
 merged['League'] = "Firefly 7"
 
-# Final output DataFrame
 submission_summary = merged[
     ['Artist(s)', 'Title', 'Submitter', 'Round Order',
      'Round Name', 'Total Votes', 'League']
 ]
 
-# ---- Save submission summary as its own file ----
 submission_summary.to_excel('submission_summary.xlsx', index=False, engine='openpyxl')
 
-# ---- Append to existing all firefly workbook ----
-# Load existing
+# ---- Update combined file ----
 df_all = pd.read_excel('previous leagues.xlsx')
-
-# Append new rows
 df_combined = pd.concat([df_all, submission_summary], ignore_index=True)
-
-# Save back to all firefly
 df_combined.to_excel('all firefly.xlsx', index=False, engine='openpyxl')
+
+print("Created all firefly.xlsx")
+
+# ---- Upload to Google Sheets ----
+creds_json = os.getenv("GOOGLE_CREDS_JSON")
+creds_dict = json.loads(creds_json)
+
+scope = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
+
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+client = gspread.authorize(creds)
+
+SPREADSHEET_ID = "<YOUR_GOOGLE_SHEET_ID>"   # <-- add your real ID here
+sheet = client.open_by_key(SPREADSHEET_ID).sheet1
+
+# Convert DataFrame to list-of-lists
+values = [df_combined.columns.tolist()] + df_combined.values.tolist()
+
+sheet.clear()
+sheet.update("A1", values)
+
+print("Google Sheet updated successfully!")
