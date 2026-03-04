@@ -49,6 +49,9 @@ submission_summary.to_excel('submission_summary.xlsx', index=False, engine='open
 # ---- Update combined file ----
 df_all = pd.read_excel('previous leagues.xlsx')
 df_combined = pd.concat([df_all, submission_summary], ignore_index=True)
+
+df_combined = df_combined.sort_values(by="Artist(s)", ascending=True)
+
 df_combined.to_excel('all firefly.xlsx', index=False, engine='openpyxl')
 
 print("Created all firefly.xlsx")
