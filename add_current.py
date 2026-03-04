@@ -40,10 +40,10 @@ submission_summary.to_excel('submission_summary.xlsx', index=False, engine='open
 
 # ---- Append to existing all firefly workbook ----
 # Load existing
-df_all = pd.read_excel('all firefly.xlsx')
+df_all = pd.read_excel('previous leagues.xlsx')
 
 # Append new rows
 df_combined = pd.concat([df_all, submission_summary], ignore_index=True)
 
-# Save back to same file
+# Save back to all firefly
 df_combined.to_excel('all firefly.xlsx', index=False, engine='openpyxl')
