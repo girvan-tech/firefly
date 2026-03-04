@@ -1,5 +1,16 @@
 
 import pandas as pd
+import zipfile
+import os
+
+# ---- Unzip export.zip ----
+zip_path = "export.zip"
+extract_dir = "."
+
+with zipfile.ZipFile(zip_path, 'r') as z:
+    z.extractall(extract_dir)
+
+print("Unzipped export.zip")
 
 # ---- Load source data ----
 df_sub = pd.read_csv('submissions.csv')
