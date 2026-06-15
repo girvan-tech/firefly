@@ -37,7 +37,7 @@ vote_sum = df_votes.groupby('Spotify URI')['Points Assigned'].sum().reset_index(
 vote_sum = vote_sum.rename(columns={'Points Assigned': 'Total Votes'})
 merged = merged.merge(vote_sum, on='Spotify URI', how='left')
 
-merged['League'] = "Firefly 7"
+merged['League'] = "Firefly 8"
 
 submission_summary = merged[
     ['Artist(s)', 'Title', 'Submitter', 'Round Order',
