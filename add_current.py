@@ -40,8 +40,8 @@ merged = merged.merge(vote_sum, on='Spotify URI', how='left')
 merged['League'] = "Firefly 8"
 
 submission_summary = merged[
-    ['Artist(s)', 'Title', 'Submitter', 'Round Order',
-     'Round Name', 'Total Votes', 'League']
+    ['Artist(s)', 'Title', 'Submitter', 'League', 'Round Order',
+     'Round Name', 'Total Votes']
 ]
 
 submission_summary.to_excel('submission_summary.xlsx', index=False, engine='openpyxl')
