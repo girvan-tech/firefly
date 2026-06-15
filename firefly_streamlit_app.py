@@ -11,8 +11,8 @@ from rapidfuzz import fuzz
 DATA_FILE_DEFAULT = "all firefly.xlsx"
 REQUIRED_COLS = [
     "Artist(s)", "Title", "Submitter",
-    "Round Order", "Round Name",
-    "Total Votes", "League"
+    "League", "Round Order", "Round Name",
+    "Total Votes"
 ]
 
 st.set_page_config(page_title="Firefly Search (fuzzy)", layout="wide")
